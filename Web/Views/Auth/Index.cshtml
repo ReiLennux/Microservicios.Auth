@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+
+                <div class="card shadow-2-strong">
+                    <div class="row g-0">
+                        <!-- Imagen lateral -->
+                        <div class="col-md-5 d-none d-md-block">
+                            <img src="https://mdbcdn.b-cdn.net/wp-content/uploads/2020/06/vertical.webp"
+                                 alt="login image"
+                                 class="img-fluid h-100 rounded-start" style="object-fit: cover;" />
+                        </div>
+
+                        <!-- Formulario -->
+                        <div class="col-md-7">
+                            <div class="card-body p-5 text-center">
+
+                                <h3 class="mb-4">Login</h3>
+
+                                @if (ViewBag.Error != null)
+                                {
+                                    <div class="alert alert-danger text-sm-center" role="alert">
+                                        @ViewBag.Error
+                                    </div>
+                                }
+
+                                <form asp-action="Index" method="post">
+                                    <div class="form-outline mb-4">
+                                        <input type="email" name="username" id="inputEmail" class="form-control form-control-lg"
+                                                autocomplete="username" required />
+                                        <label class="form-label" for="inputEmail">User Name</label>
+                                    </div>
+
+                                    <div class="form-outline mb-4">
+                                        <input type="password" name="password" id="inputPassword" class="form-control form-control-lg"
+                                               placeholder="******" autocomplete="current-password" required />
+                                        <label class="form-label" for="inputPassword">Password</label>
+                                    </div>
+
+                                    <button class="btn btn-primary btn-lg btn-block" type="submit">
+                                        Ingresar
+                                    </button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
