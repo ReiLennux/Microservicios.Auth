@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Users";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <h3>Under Construction</h3>
+                <a class="nav-link" href="@Url.Action("Create", "Users")">Usuarios</a>
+            </div>
+        </div>
+    </div>
+</section>

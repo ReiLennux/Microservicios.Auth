@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Security.Claims;
 using Web.Models;
 
 namespace Web.Controllers
@@ -27,28 +29,35 @@ namespace Web.Controllers
 
             var response = await client.PostAsJsonAsync($"{_settings.LoginUrl}/login", model);
 
-            Console.WriteLine(response);
             if (response.IsSuccessStatusCode)
             {
                 var token = await response.Content.ReadAsStringAsync();
                 HttpContext.Session.SetString("AuthToken", token);
-                return RedirectToAction("Welcome");
+
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, model.UserName)
+                };
+
+                var identity = new ClaimsIdentity(claims, "Cookies");
+                var principal = new ClaimsPrincipal(identity);
+
+                await HttpContext.SignInAsync("Cookies", principal);
+
+                return RedirectToAction("Index", "Home");
             }
 
             ViewBag.Error = "Credenciales incorrectas";
             return View();
         }
 
-        public IActionResult Welcome()
+        [HttpPost]
+        public async Task<IActionResult> Logout()
         {
-            var token = HttpContext.Session.GetString("AuthToken");
-            if (string.IsNullOrEmpty(token))
-            {
-                return RedirectToAction("Index");
-            }
+            await HttpContext.SignOutAsync("Cookies");
 
-            ViewBag.Token = token;
-            return View();
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Auth");
         }
     }
 }
