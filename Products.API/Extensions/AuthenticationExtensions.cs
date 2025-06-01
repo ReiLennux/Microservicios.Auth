@@ -9,14 +9,14 @@ namespace Products.API.Extensions
 {
     public static class AuthenticationExtensions
     {
-        public static IServiceCollection AddJwtAuthenticacion(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration config)
         {
             var secretKey = config["ApiSettings:JwtOptions:Secret"];
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
-
+            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
+                {
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
@@ -25,8 +25,13 @@ namespace Products.API.Extensions
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = config["ApiSettings:JwtOptions:Issuer"],
                         ValidAudience = config["ApiSettings:JwtOptions:Audience"],
-                        IssuerSigningKey = key
-                    });
+                        IssuerSigningKey = key,
+
+                    };
+                    options.IncludeErrorDetails = true;
+
+                }
+                    );
 
             services.AddAuthorization(options =>
                 options.FallbackPolicy = new AuthorizationPolicyBuilder()

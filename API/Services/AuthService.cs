@@ -137,7 +137,7 @@ namespace API.Services
             var user = _context.ApplicationUser
                 .FirstOrDefault(u => u.Email.ToLower() == email.ToLower());
 
-            if (user == null)
+            if (user != null)
             {
                 if(!_roleManager.RoleExistsAsync(roleName).GetAwaiter().GetResult())
                 {

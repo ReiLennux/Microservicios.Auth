@@ -10,33 +10,40 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+// Controllers
 builder.Services.AddControllers()
     .AddJsonOptions(opts =>
-    opts.JsonSerializerOptions.ReferenceHandler =
-    ReferenceHandler.IgnoreCycles
-    );
+        opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-
+// DB Context
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+// AutoMapper
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
-
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddEndpointsApiExplorer();
 
-// TODO: Add Cors
+// CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins", policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader());
+});
 
+// Swagger + JWT
 builder.Services.AddSwaggerGen(options =>
 {
-    options.AddSecurityDefinition(name: JwtBearerDefaults.AuthenticationScheme, securityScheme: new OpenApiSecurityScheme
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Product MicroService", Version = "v1" });
+
+    options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme
     {
         Name = "Authorization",
-        Description = "Enter the Bearer Authorization string as following",
+        Description = "Enter 'Bearer {token}'",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer"
@@ -52,41 +59,39 @@ builder.Services.AddSwaggerGen(options =>
                     Type = ReferenceType.SecurityScheme,
                     Id = JwtBearerDefaults.AuthenticationScheme
                 }
-            }, new string[] {}
+            },
+            new string[] {}
         }
     });
 });
 
-builder.AddAppAuthentication();
-builder.Services.AddAuthorization();
-// Add services to the container.
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddAuthorization();
+
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.MapOpenApi();
-
-    //Added by Lenn XD
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Products API V1");
     });
 }
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
-//Added by Lenn XD
-app.UseCors("AllowAll");
+app.UseCors("AllowAllOrigins");
 
 app.UseAuthorization();
-app.UseAuthentication();
+
+app.UseStaticFiles();
+
 app.MapControllers();
 
 app.Run();
