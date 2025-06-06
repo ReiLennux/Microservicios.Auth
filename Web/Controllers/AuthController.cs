@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
+using System.Text.Json;
 using Web.Models;
+using Web.Models.Auth;
 
 namespace Web.Controllers
 {
@@ -10,6 +12,7 @@ namespace Web.Controllers
     {
         private readonly MicroserviceSettings _settings;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly MsResponse _response;
 
         public AuthController(
             IOptions<MicroserviceSettings> settings,
@@ -17,6 +20,7 @@ namespace Web.Controllers
         {
             _settings = settings.Value;
             _httpClientFactory = httpClientFactory;
+            _response = new MsResponse();
         }
 
         [HttpGet]
@@ -30,21 +34,27 @@ namespace Web.Controllers
             var response = await client.PostAsJsonAsync($"{_settings.LoginUrl}/login", model);
 
             if (response.IsSuccessStatusCode)
-            {
-                var token = await response.Content.ReadAsStringAsync();
-                HttpContext.Session.SetString("AuthToken", token);
+            { 
 
-                var claims = new List<Claim>
+                var responseContent = await response.Content.ReadAsStringAsync();
+                var deserializedResponse = JsonSerializer.Deserialize<MsResponse>(responseContent);
+
+                if (deserializedResponse != null)
                 {
-                    new Claim(ClaimTypes.Name, model.UserName)
-                };
+                    HttpContext.Session.SetString("AuthToken", deserializedResponse.result?.ToString() ?? string.Empty);
 
-                var identity = new ClaimsIdentity(claims, "Cookies");
-                var principal = new ClaimsPrincipal(identity);
+                    var claims = new List<Claim>
+                   {
+                       new Claim(ClaimTypes.Name, model.UserName)
+                   };
 
-                await HttpContext.SignInAsync("Cookies", principal);
+                    var identity = new ClaimsIdentity(claims, "Cookies");
+                    var principal = new ClaimsPrincipal(identity);
 
-                return RedirectToAction("Index", "Home");
+                    await HttpContext.SignInAsync("Cookies", principal);
+
+                    return RedirectToAction("Index", "Home");
+                }
             }
 
             ViewBag.Error = "Credenciales incorrectas";

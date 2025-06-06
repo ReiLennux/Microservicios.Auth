@@ -4,7 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
-namespace Products.API.Extensions
+namespace Coupon.API.Extensions
 {
     public static class AuthenticationExtensions
     {
@@ -32,23 +32,11 @@ namespace Products.API.Extensions
                 }
                     );
 
-            ///<summary>
-            ///this section use FallbackPolicy that protect all routes, 
-            ///it will be change for {DefaultPolicy  and [Autorize]} in the routes (controller)
-            ///In order to serve static files (images in wwwroot)
-            ///</summary>
-            //services.AddAuthorization(options =>
-            //    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-            //    .RequireAuthenticatedUser()
-            //    .Build()
-            //);
-
             services.AddAuthorization(options =>
-            {
-                options.DefaultPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-            });
+                options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build()
+            );
 
             return services;
         }
@@ -86,5 +74,4 @@ namespace Products.API.Extensions
             return service;
         }
     }
-
 }

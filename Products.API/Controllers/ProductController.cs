@@ -10,7 +10,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace Products.API.Controllers
 {
-
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -69,7 +69,7 @@ namespace Products.API.Controllers
                     }
 
                     var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Value}{HttpContext.Request.PathBase.Value}";
-                    product.ImageUrl = $"{baseUrl}/ProductImages/{fileName}";
+                    product.ImageUrl = $"{baseUrl}/ProductImage/{fileName}";
                     product.ImageLocalPath = filePath;
                 }
                 else

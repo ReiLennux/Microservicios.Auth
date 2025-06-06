@@ -1,6 +1,4 @@
-﻿
-
-namespace Web.Models
+﻿namespace Web.Models.Auth
 {
     public class RegisterRequestDto
     {

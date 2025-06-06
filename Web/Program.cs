@@ -4,7 +4,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Cargar configuración
 builder.Services.Configure<MicroserviceSettings>(
-    builder.Configuration.GetSection("MicroserviceSettings"));
+    builder.Configuration.GetSection("MicroserviceSettings")
+    );
 
 // Agregar servicios necesarios
 builder.Services.AddAuthentication("Cookies")

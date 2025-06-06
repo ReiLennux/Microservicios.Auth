@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using System.Net.Http;
 using System.Runtime;
 using Web.Models;
+using Web.Models.Auth;
 
 
 namespace Web.Controllers
@@ -39,13 +40,13 @@ namespace Web.Controllers
             {
                 var content = await response.Content.ReadFromJsonAsync<MsResponse>();
 
-                if (content != null && content.IsSuccess)
+                if (content != null && content.isSuccess)
                 {
                     TempData["SuccessMessage"] = "Usuario registrado con éxito. Ahora puedes iniciar sesión.";
                     return RedirectToAction("Index", "Users");
                 }else
                 {
-                    ViewBag.Error = content.Message;
+                    ViewBag.Error = content.message;
                 }
             }else
             {
