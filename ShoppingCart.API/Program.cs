@@ -1,11 +1,12 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Products.API;
-using Products.API.Data;
-using Products.API.Extensions;
+using ShoppingCart.API;
+using ShoppingCart.API.Contract;
+using ShoppingCart.API.Data;
+using ShoppingCart.API.Extensions;
+using ShoppingCart.API.Services;
+using ShoppingCart.API.Utility;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +27,22 @@ IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddScoped<IProductService, IProductService>();
+builder.Services.AddScoped<ICouponService, CouponService>();
+
+builder.Services.AddScoped<BackendApiAutenticationHttpClientHandler>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddHttpClient("Product",
+
+    u => u.BaseAddress = new
+    Uri(builder.Configuration["ServiceUrl:ProductUrl"]))
+    .AddHttpMessageHandler<BackendApiAutenticationHttpClientHandler>();
+builder.Services.AddHttpClient("Coupon",
+
+    u => u.BaseAddress = new
+    Uri(builder.Configuration["ServiceUrl:CouponUrl"]))
+    .AddHttpMessageHandler<BackendApiAutenticationHttpClientHandler>();
+
 // CORS
 builder.Services.AddCors(options =>
 {
@@ -37,10 +54,11 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddEndpointsApiExplorer();
 
+builder.Services.AddControllers();
 // Swagger + JWT
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Product MicroService", Version = "v1" });
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Shopping Cart MicroService", Version = "v1" });
 
     options.AddSecurityDefinition(name: JwtBearerDefaults.AuthenticationScheme, securityScheme: new OpenApiSecurityScheme
     {

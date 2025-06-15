@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Lista de Productos";
     @model List<Web.Models.Product.ProductDto>
 
@@ -17,7 +16,9 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="fw-bold">Lista de Productos</h2>
-            <a href="#" class="btn btn-success">Agregar Producto</a>
+            <form method="post" asp-action="Post">
+                <a href="#" class="btn btn-success">Agregar Producto</a>
+            </form>
         </div>
 
         <div class="row g-4">
@@ -37,9 +38,9 @@
                                     <a href="#" class="btn btn-outline-warning btn-sm w-100">Editar</a>
 
                                     <button type="button"
-                                        class="btn btn-outline-danger btn-sm w-100" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#deleteModal-@item.ProductID">
+                                            class="btn btn-outline-danger btn-sm w-100"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal-@item.ProductID">
                                         Eliminar
                                     </button>
 
