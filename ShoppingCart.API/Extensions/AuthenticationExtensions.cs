@@ -33,11 +33,10 @@ namespace ShoppingCart.API.Extensions
                     );
 
             services.AddAuthorization(options =>
-            {
-                options.DefaultPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-            });
+                            options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                            .RequireAuthenticatedUser()
+                            .Build()
+                        );
 
             return services;
         }

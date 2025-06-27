@@ -13,7 +13,7 @@ namespace ShoppingCart.API
             {
                 config.CreateMap<CartDetailsDto, CartDetails>()
                 .ReverseMap();
-                config.CreateMap<CartHeaderDto, CartHeaderDto>()
+                config.CreateMap<CartHeaderDto, CartHeader>()
                 .ReverseMap();
             });
             return mappingConfig;
