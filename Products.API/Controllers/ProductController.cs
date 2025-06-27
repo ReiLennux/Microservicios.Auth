@@ -34,6 +34,7 @@ namespace Products.API.Controllers
                 IEnumerable<Product>
                     objList = _context.Products.ToList();
                 _response.Result = _mapper.Map<IEnumerable<ProductDto>>(objList);
+                _response.IsSuccess = true;
             }
             catch (Exception ex)
             {

@@ -16,7 +16,7 @@ namespace Products.API.Extensions
 
             var Audience = settingSection.GetValue<string>("JwtOptions:Audience");
 
-            var key = Encoding.ASCII.GetBytes(secret);
+            var key = Encoding.UTF8.GetBytes(secret);
 
             builder.Services.AddAuthentication(x =>
             {

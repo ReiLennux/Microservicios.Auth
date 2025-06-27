@@ -86,7 +86,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.Services.AddJwtAuthentication(builder.Configuration);
+//builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.AddAuthorization();
 
@@ -109,9 +109,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowAllOrigins");
 
-app.UseAuthorization();
+//app.UseAuthorization();
 
-app.UseStaticFiles();
 
 app.MapControllers();
 

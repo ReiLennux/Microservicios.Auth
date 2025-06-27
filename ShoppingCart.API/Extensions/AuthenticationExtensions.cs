@@ -11,7 +11,7 @@ namespace ShoppingCart.API.Extensions
         public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration config)
         {
             var secretKey = config["ApiSettings:JwtOptions:Secret"];
-            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

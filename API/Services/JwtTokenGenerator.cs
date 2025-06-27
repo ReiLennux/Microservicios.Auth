@@ -22,7 +22,7 @@ namespace Auth.Services
         public string GenerateToken(ApplicationUser applicationUser, IEnumerable<string> roles)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_jwtoptions.Secret);
+            var key = Encoding.UTF8.GetBytes(_jwtoptions.Secret);
 
             var claimsList = new List<Claim>()
                 {

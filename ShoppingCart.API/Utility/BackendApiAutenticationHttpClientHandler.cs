@@ -13,11 +13,17 @@ namespace ShoppingCart.API.Utility
 
         protected override async Task<HttpResponseMessage>  SendAsync (HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var token = await _accessor.HttpContext.GetTokenAsync("access_token");
+            var token = _accessor.HttpContext?.Request?.Headers["Authorization"].ToString();
+            Console.WriteLine($"TOKEN RAW: {token}");
+
+            if (!string.IsNullOrEmpty(token) && token.StartsWith("Bearer "))
+            {
+                token = token.Substring("Bearer ".Length);
+                Console.WriteLine($"TOKEN CLEAN: {token}");
+            }
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-            return await base.SendAsync (request, cancellationToken);
+            return await base.SendAsync(request, cancellationToken);
         }
     }
 }
