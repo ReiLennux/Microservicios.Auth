@@ -1,0 +1,55 @@
+name: Compilar y Desplegar
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    paths:
+      - 'Store.ms/Product.API/**'
+      - '.github/workflows/compilar_y_desplegar.yml'
+
+env:
+  VERSION_DOTNET: '9.0.X'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PROYECTO: Store.ms.Product.API.csproj
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup .NET SDK ${{env.VERSION_DOTNET}}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{env.VERSION_DOTNET}}
+          include-prerelease: true
+
+      - name: Verificar SDK instalado
+        run: dotnet --info
+
+      - name: Listar estructura de carpetas
+        run: ls -R .
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{runner.os}}-${{hasFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{runner.os}}-
+
+      - name: Restore dependencies
+        run: dotnet restore ${{env.PROYECTO}}
+
+      - name: Build
+        run: dotnet build ${{env.PROYECTO}} --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test ${{env.PROYECTO}} --no-build --configuration Release
+
+      - name: Publish
+        run: dotnet publish ${{env.PROYECTO}} --no-build --configuration Release --output ./publish
