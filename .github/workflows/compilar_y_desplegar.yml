@@ -38,7 +38,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.nuget/packages
-          key: nuget-${{runner.os}}-${{hasFiles('**/*.csproj') }}
+          key: nuget-${{runner.os}}-${{hashFiles('**/*.csproj') }}
           restore-keys: |
             nuget-${{runner.os}}-
 
