@@ -6,7 +6,7 @@ on:
     branches:
       - master
     paths:
-      - 'Store.ms/Product.API/**'
+      - 'Products.API/**'
       - '.github/workflows/compilar_y_desplegar.yml'
 
 env:
@@ -16,7 +16,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      PROYECTO: ./Product.API/Product.API.csproj
+      PROYECTO: ./Products.API/Products.API.csproj
 
     steps:
       - name: Checkout
