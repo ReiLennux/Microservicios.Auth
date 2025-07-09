@@ -16,7 +16,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      PROYECTO: Store.ms/Product.API/Product.API.csproj
+      PROYECTO: ./Product.API/Product.API.csproj
 
     steps:
       - name: Checkout
