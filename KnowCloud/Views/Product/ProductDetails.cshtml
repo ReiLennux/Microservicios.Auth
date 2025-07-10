@@ -1,0 +1,97 @@
+﻿@model KnowCloud.Models.Dto.ProductDto
+
+@{
+    ViewData["Title"] = "Product Details";
+    Layout = "~/Views/shared/_layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/cart-detail.css" />
+}
+
+<div class="product-container animate-fade">
+    <form method="post" asp-action="ProductDetails" asp-controller="Home">
+        <input type="hidden" asp-for="ProductID" />
+
+        <div  class="product-card">
+            <div class="product-header">
+                <h1 class="product-title">@Model.Name</h1>
+                <p class="product-price">@String.Format("0:c", Model.Price)</p>
+            </div>
+
+            <div class="product-body">
+                <div class="product-grid">
+                    <div class="product-image-container">
+                        <img src="@Model.ImageUrl" class="product-image" alt="@Model.Name"/>
+                    </div>
+                    <div class="product-info">
+                        <div>
+                            <span class="product-category">@Model.CategoryName</span>
+                            <div class="product-description">@Html.Raw(Model.Description)</div>
+                        </div>
+                        <div class="quantity-Input">
+                            <label class="quantity-label" for="Count">Cantidad</label>
+                            <div class="quantity-control">
+                                <button type="button" class="quantity-btn mins" onclick="decrementQuantity()">-</button>
+                                <input type="number" id="Count" name="Count" class="quantity-input" value="1" min="1" max="10" />
+                                <button type="button" class="quantity-btn plus" onclick="incrementQuantity()">+</button>
+                            </div>
+                            <span asp-validation-for="Count" class="text-danger" id="Count-validation"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="product-footer">
+                <a class="btn btn-secondary" asp-action="Index" asp-controller="Home" href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M11.5 8a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm-4-4a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zM7.146.146a.5.5 0 0 1 .708 0l4.646 4.646a.5.5 0 0 1-.708.708L8.207.707l-3.147 3.147A.5.5 0 1 1 .353-.354l4-4z" />
+                    </svg>
+                    Volver a la tiendo
+                </a>
+                <button type="submit" class="btn btn-accent">
+                    <i class="fas fa-shopping-cart"></i>
+                    Añadir al carrito
+                </button>
+            </div>
+        </div>
+
+    </form>
+
+</div>
+
+<script>
+
+    function incrementQuantity() {
+       const input = document.getElementById('Count');
+       input.value = parseInt(input.value) + 1
+       validateQuantity()
+    }
+
+    function decrementQuantity() {
+       const input = document.getElementById('Count');
+       if (input.value > 1) {
+           input.value = parseInt(input.value) - 1
+       }
+       validateQuantity()
+    }
+
+    function validateQuantity() {
+        const input = document.getElementById('Count');
+        const validation = document.getElementById('Count-validation');
+
+        if(parseInt(input.value) < 1) {
+            validation.textContent = "La cantidad debe ser al menos 1.";
+            return false;
+        } else {
+            validation.textContent = "";
+            return true;
+        }
+    }
+
+    document.getElementById('Count').addEventListener('input', validateQuantity);
+    document.querySelector("form").addEventListener("submit", function(event) {
+        if (!validateQuantity()) {
+            event.preventDefault();
+        }
+    });
+</script>

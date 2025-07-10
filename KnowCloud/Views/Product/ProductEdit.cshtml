@@ -1,0 +1,82 @@
+﻿@model KnowCloud.Models.Dto.ProductDto
+
+<form>
+    <div class="container mt-5 p-4 rounded shadow-lg" style="background-color:#5a189a">
+        <h2 class="text-center text-white mb-4">Editar Producto</h2>
+        <input type="hidden" asp-for="ProductID" />
+
+        <div class="row">
+            <div class="col-md-10">
+
+                <!-- Name -->
+                <div class="form-group row mb-3">
+                    <label asp-for="Name" class="col-sm-2 col-form-label text-white fs-5">Nombre</label>
+                    <div class="col-sm-10">
+                        <input asp-for="Name" class="form-control" placeholder="Nombre del producto" />
+                        <span asp-validation-for="Name" class="text-warning small"></span>
+                    </div>
+                </div>
+                <!-- CategoryName -->
+                <div class="form-group row mb-3">
+                    <label asp-for="CategoryName" class="col-sm-2 col-form-label text-white fs-5">Categoría</label>
+                    <div class="col-sm-10">
+                        <input asp-for="CategoryName" class="form-control" placeholder="Nombre del producto" />
+                        <span asp-validation-for="CategoryName" class="text-warning small"></span>
+                    </div>
+                </div>
+                <!-- Description -->
+                <div class="form-group row mb-3">
+                    <label asp-for="Description" class="col-sm-2 col-form-label text-white fs-5">Nombre</label>
+                    <div class="col-sm-10">
+                        <textarea asp-for="Description" class="form-control" rows="4" placeholder="Descripcion del producto..." />
+                        <span asp-validation-for="Description" class="text-warning small"></span>
+                    </div>
+                </div>
+                <!-- Price -->
+                <div class="form-group row mb-3">
+                    <label asp-for="Price" class="col-sm-2 col-form-label text-white fs-5">Precio</label>
+                    <div class="col-sm-10">
+                        <input asp-for="Price" class="form-control" placeholder="e.g. 19.99" />
+                        <span asp-validation-for="Price" class="text-warning small"></span>
+                    </div>
+                </div>
+                <!-- Image Upload -->
+                <div class="form-group row mb-3">
+                    <label class="col-sm-2 col-form-labelcol-form-label text-white fs-5">Imagen</label>
+                    <div>
+                        <input type="file" asp-for="Image" class="form-control" />
+                        <input type="hidden" asp-for="ImageUrl" />
+                        <input type="hidden" asp-for="ImageLocalPath" />
+                        <span asp-validation-for="Image" class="text-warning small"></span>
+                    </div>
+
+                </div>
+
+                <!-- Submit Button -->
+                <div class="row mt-4">
+                    <div class="col-md-6 text-center">
+                        <a asp-action="ProductIndex" class="btn form-control text-white" style="background-color: #C14600;">
+                            <-- regresar
+                        </a>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <button type="submit" class="btn form-control text-white" style="background-color: #00b894;">
+                            Guardar Cambios
+                        </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-md-2 text-center">
+                <img src="@Model.ImageUrl" alt="Imagen del producto" class="img-fluid rounded border mt-3" />
+        </div>
+
+
+    </div>
+</form>
+
+
+@section Script {
+    <partial name="_ValidationScriptsPartial" />
+}

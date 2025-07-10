@@ -1,8 +1,281 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<KnowCloud.Models.Dto.ProductDto>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" rel="stylesheet" />
+    <style>
+        .product-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+            .product-card:hover {
+                transform: scale(1.03);
+            }
+
+        .product-image {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .rating i {
+            color: gold;
+        }
+    </style>
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4 vw-100">
+    <!-- Header principal -->
+    <header class="store-header w-100">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-3 mb-3 mb-lg-0">
+                    <h1><i class="fas fa-store me-2"></i>KnowCloud</h1>
+                    <p class="mb-0">Los mejores productos al mejor precio</p>
+                </div>
+                <div class="col-lg-6 mb-3 mb-lg-0">
+                    <div class="search-bar">
+                        <input type="text" class="form-control" id="searchInput" placeholder="¿Qué estás buscando hoy?">
+                        <button type="button" id="searchButton"><i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </header>
+    <!-- Filtros -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <label class="roboto-thin-ExtraLight-200 title-morado">Buscar producto</label>
+            <input type="text" class="form-control" id="searchInput" placeholder="Nombre del producto...">
+        </div>
+        <div class="col-md-3">
+            <label class="roboto-thin-ExtraLight-200 title-morado">Precio máximo</label>
+            <input type="number" class="form-control" id="priceFilter" placeholder="Precio máximo">
+        </div>
+        <div class="col-md-3">
+            <label class="roboto-thin-ExtraLight-200 title-morado">Valoración mínima</label>
+            <select class="form-control" id="ratingFilter">
+                <option value="">Todas</option>
+                <option value="1">1+ estrella</option>
+                <option value="2">2+ estrellas</option>
+                <option value="3">3+ estrellas</option>
+                <option value="4">4+ estrellas</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="roboto-thin-ExtraLight-200 title-morado">Ordenar por</label>
+            <select class="form-control" id="sortFilter">
+                <option value="none">Seleccionar</option>
+                <option value="priceAsc">Precio: menor a mayor</option>
+                <option value="priceDesc">Precio: mayor a menor</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Carrusel de productos destacados -->
+    <h4 class="mb-3 roboto-Medium-500 title-orange">Buscar un Producto</h4>
+    <div class="owl-carousel owl-theme mb-5">
+        <div class="item">
+            <div class="card" style="width: 18rem;">
+                <img src="https://m.media-amazon.com/images/I/71ZsWZIkQ+L._AC_SY695_.jpg" class="img-fluid card-img-top" alt="Producto 1" />
+                <div class="card-body">
+                    <h5 class="card-title title-orange">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Ver más</a>
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="card" style="width: 18rem;">
+                <img src="https://m.media-amazon.com/images/I/61vFB6cgvbL._AC_SY606_.jpg" class="img-fluid" alt="Producto 2" />
+                <div class="card-body">
+                    <h5 class="card-title title-orange">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="item">
+            <div class="card" style="width: 18rem;">
+                <img src="https://m.media-amazon.com/images/I/61L4LlIfJ5L._AC_SX569_.jpg" class="img-fluid card-img-top" alt="Producto 3" />
+                <div class="card-body">
+                    <h5 class="card-title title-orange">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="item">
+            <div class="card" style="width: 18rem;">
+                <img src="https://m.media-amazon.com/images/I/51HRSbhjLvL._AC_SY741_.jpg" class="img-fluid card-img-top" alt="Producto 4" />
+                <div class="card-body">
+                    <h5 class="card-title title-orange">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="row mb-4">
+        <input type="text" id="searchInput" placeholder="Buscar producto..." class="form-control" />
+    </div>
+
+    <div id="carouselContainer" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner" id="carouselItemsContainer"></div>
+    </div>
+
+    <div class="row" id="productContainer"></div>
+    <div class="text-center mt-4 mb-2">
+        <button id="loadMoreBtn" class="btn btn-primary">Cargar más</button>
+    </div>
+
+    <!-- Grid de productos -->
+    <div class="row" id="productList">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 mb-4 product-item" data-name="@product.Name" data-price="product.Price">
+                <div class="product-card">
+                    <img src="@product.ImageUrl" class="w-100 product-image" alt="@product.Name" />
+                    <div class="p-3">
+                        <h5 class="roboto-SemiBold-600 title-morado">@product.Name</h5>
+                        <p class="price roboto-Medium-500">@string.Format("{0:c}", product.Price)</p>
+                        <a asp-action="ProductDetails" asp-route-productId="@product.ProductId"
+                           class="btn btn-outline-primary btn-sm mt-2 roboto-Light-300">Detalles</a>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <script>
+        let currentPage = 1;
+        const pageSize = 10;
+        let currentSearch = '';
+
+        const API_ROUTES = {
+          products: '/api/productos', // <-- reemplaza esta ruta
+          carousel: '/api/productos/promociones', // <-- reemplaza esta ruta
+        };
+
+        $(document).ready(function () {
+          loadProducts();
+          loadCarousel();
+
+          $('#searchInput').on('keyup', function () {
+            currentSearch = $(this).val();
+            currentPage = 1;
+            $('#productContainer').empty();
+            loadProducts();
+          });
+
+          $('#loadMoreBtn').on('click', function () {
+            currentPage++;
+            loadProducts();
+          });
+        });
+
+        function loadProducts() {
+          $.ajax({
+            url: `${API_ROUTES.products}?page=${currentPage}&pageSize=${pageSize}&search=${currentSearch}`,
+            method: 'GET',
+            success: function (data) {
+              renderProducts(data);
+              if (data.length < pageSize) {
+                $('#loadMoreBtn').hide();
+              } else {
+                $('#loadMoreBtn').show();
+              }
+            },
+            error: function () {
+              console.error('Error cargando productos');
+            }
+          });
+        }
+
+        function loadCarousel() {
+          $.ajax({
+            url: API_ROUTES.carousel,
+            method: 'GET',
+            success: function (data) {
+              renderCarousel(data);
+            },
+            error: function () {
+              console.error('Error cargando promociones');
+            }
+          });
+        }
+
+        function renderProducts(products) {
+          products.forEach(product => {
+            const cardHtml = `
+              <div class="col-md-4 mb-4">
+                <div class="card">
+                  <img src="${product.imagenUrl}" class="card-img-top" alt="${product.nombre}" />
+                  <div class="card-body">
+                    <h5 class="card-title">${product.nombre}</h5>
+                    <p class="card-text">${product.descripcion}</p>
+                    <p class="text-success fw-bold">$${product.precio}</p>
+                    <button class="btn btn-primary add-to-cart" data-id="${product.id}">Agregar al carrito</button>
+                  </div>
+                </div>
+              </div>
+            `;
+            $('#productContainer').append(cardHtml);
+          });
+
+          $('.add-to-cart').off('click').on('click', function () {
+            const productId = $(this).data('id');
+            addToCart(productId);
+          });
+        }
+
+        function renderCarousel(promotions) {
+          $('#carouselItemsContainer').empty();
+          promotions.forEach((item, index) => {
+            $('#carouselItemsContainer').append(`
+              <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                <img src="${item.imagenUrl}" class="d-block w-100" alt="${item.titulo}" />
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>${item.titulo}</h5>
+                  <p>${item.descripcion}</p>
+                </div>
+              </div>
+            `);
+          });
+        }
+
+        function addToCart(productId) {
+          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+          const index = cart.findIndex(p => p.id === productId);
+
+          if (index > -1) {
+            cart[index].cantidad++;
+          } else {
+            cart.push({ id: productId, cantidad: 1 });
+          }
+
+          localStorage.setItem('cart', JSON.stringify(cart));
+          alert('Producto agregado al carrito');
+        }
+    </script>
+}
