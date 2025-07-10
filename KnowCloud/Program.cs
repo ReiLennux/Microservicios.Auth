@@ -46,7 +46,7 @@ builder.Services.Configure<FormOptions>(options =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+                    options.ExpireTimeSpan = TimeSpan.FromHours(1);
                     options.LoginPath = "/Account/Login";
                     options.AccessDeniedPath = "/Account/Denied";
                     //options.SlidingExpiration = true;

@@ -93,6 +93,12 @@ builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
 
+
+// builder.WebHost.ConfigureKestrel(options =>
+// {
+//     options.ListenLocalhost(5004);
+// });
+
 var app = builder.Build();
 
 

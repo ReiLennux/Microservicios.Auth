@@ -73,6 +73,11 @@ builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddOpenApi();
 
+// builder.WebHost.ConfigureKestrel(options =>
+// {
+//     options.ListenLocalhost(5002);
+// });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.  

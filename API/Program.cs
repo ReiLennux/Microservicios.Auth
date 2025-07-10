@@ -43,6 +43,14 @@ builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddOpenApi();
 
+
+//PORT CONFIG
+// builder.WebHost.ConfigureKestrel(options =>
+// {
+//     options.ListenLocalhost(5001);
+// });
+
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
