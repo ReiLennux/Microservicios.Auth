@@ -11,20 +11,19 @@ namespace KnowCloud.Utility
             _allowedExtensions = allowedExtensions;
         }
 
-        private override ValidationResult IsValid(object value, ValidationResult validationResult)
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             var file = value as IFormFile;
 
             if (file != null)
             {
-                var extensions = Path.GetExtension(file.FileName);
-                if (!_allowedExtensions.Contains(extensions))
+                var extension = Path.GetExtension(file.FileName);
+                if (!_allowedExtensions.Contains(extension))
                 {
-                    return new ValidationResult("This extension are no allowed");
+                    return new ValidationResult("This extension is not allowed.");
                 }
             }
             return ValidationResult.Success;
-
         }
     }
 }

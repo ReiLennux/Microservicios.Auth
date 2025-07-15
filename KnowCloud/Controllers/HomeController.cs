@@ -1,5 +1,6 @@
 using KnowCloud.Models;
 using KnowCloud.Models.Dto;
+using KnowCloud.Service.Contract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -13,7 +14,7 @@ namespace KnowCloud.Controllers
         private readonly IProductService _productService;
         private readonly ICartService _cartService;
 
-        public HomeController(CartService cartService, IProductService productService, ILogger<HomeController> logger)
+        public HomeController(ICartService cartService, IProductService productService, ILogger<HomeController> logger)
         {
             _logger = logger;
             _productService = productService;

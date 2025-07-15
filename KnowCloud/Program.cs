@@ -1,4 +1,6 @@
 using KnowCloud.Filters;
+using KnowCloud.Service;
+using KnowCloud.Service.Contract;
 using KnowCloud.Utility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Cors.Infrastructure;
@@ -17,8 +19,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddHttpClient<IProductService, ProductService>();
 builder.Services.AddHttpClient<ICouponService, CouponService>();
-builder.Services.AddHttpClient<ICartService, ICartService>();
-builder.Services.AddHttpClient<IOrderService, IOrderService>();
+builder.Services.AddHttpClient<ICartService, CartService>();
+//builder.Services.AddHttpClient<IOrderService, OrderService>();
 
 Utilities.CouponAPIBase = builder.Configuration["ServiceUrls:CouponAPI"];
 Utilities.OrderAPIBAse = builder.Configuration["ServiceUrls:OrderAPI"];
@@ -27,7 +29,7 @@ Utilities.ProductAPIBase = builder.Configuration["ServiceUrls:ProductAPI"];
 Utilities.ShoppingCartAPIBase = builder.Configuration["ServiceUrls:ShoppingCartAPI"];
 
 builder.Services.AddHttpClient<IAuthService, AuthService>();
-builder.Services.AddTransient<IDataCloudAzure, DataCLoudAzure>();
+//builder.Services.AddTransient<IDataCloudAzure, DataCLoudAzure>();
 
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -36,7 +38,7 @@ builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICartService, CartService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
+//builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.Configure<FormOptions>(options =>
 {

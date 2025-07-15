@@ -35,12 +35,12 @@ namespace Products.API.Extensions
             ///<summary>
             ///this section use FallbackPolicy that protect all routes, 
             ///it will be change for {DefaultPolicy  and [Autorize]} in the routes (controller)
-            ///In order to serve static files (images in wwwroot)
+            ///In order to serve static files (images on wwwroot)
             ///</summary>
             //services.AddAuthorization(options =>
             //    options.FallbackPolicy = new AuthorizationPolicyBuilder()
             //    .RequireAuthenticatedUser()
-            //    .Build()
+            //    .Build();
             //);
 
             services.AddAuthorization(options =>

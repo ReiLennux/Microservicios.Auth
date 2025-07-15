@@ -12,7 +12,7 @@
         public const string RoleAdmin = "ADMINISTRADOR";
         public const string RoleCustomer = "CUSTOMER";
 
-        public enum APiTye
+        public enum APIType
         {
             GET,
             POST,

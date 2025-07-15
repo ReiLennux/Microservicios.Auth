@@ -26,6 +26,7 @@ namespace Products.API.Controllers
             _response = new ResponseDto();
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public ResponseDto Get()
         {
@@ -127,7 +128,7 @@ namespace Products.API.Controllers
 
         [HttpPut]
         [Authorize(Roles = "ADMINISTRADOR")]
-        public ResponseDto Put([FromBody] ProductDto productDto)
+        public ResponseDto Put([FromForm] ProductDto productDto)
         {
             try
             {

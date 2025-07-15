@@ -1,4 +1,6 @@
 ﻿using KnowCloud.Filters;
+using KnowCloud.Service;
+using KnowCloud.Service.Contract;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Features;
@@ -21,7 +23,7 @@ namespace KnowCloud.Utility
             services.AddHttpClient<IAuthService, AuthService>()
                 .SetHandlerLifetime(TimeSpan.FromMinutes(5));
 
-            services.AddTransient<IDataCloudAzure, DataCloudAzure>();
+            //services.AddTransient<IDataCloudAzure, DataCloudAzure>();
             services.AddScoped<IBaseService, BaseService>();
             services.AddScoped<ITokenProvider, TokenProvider>();
 
